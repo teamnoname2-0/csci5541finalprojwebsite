@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang=" en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NLP Class Project | Fall 2024 CSCI 5541 | University of Minnesota</title>
+
+  <link rel="stylesheet" href="./files/bulma.min.css" />
+
+  <link rel="stylesheet" href="./files/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com/">
+  <link href="./files/css2.css" rel="stylesheet">
+  <link href="./files/css.css" rel="stylesheet">
+
+
+  <base href="." target="_blank"></head>
+
+
+<body>
+  <div>
+    <div class="wrapper">
+      <h1 style="font-family: &#39;Lato&#39;, sans-serif;">Evidence-Grounded Fake Job Posting Detection with Fairness Guarantees</h1>
+      <h4 style="font-family: &#39;Lato&#39;, sans-serif; ">Fall 2025 CSCI 5541 NLP: Class Project - University of Minnesota</h4>
+      <h4 style="font-family: &#39;Lato&#39;, sans-serif; ">Team No Name 2.0</h4>
+
+      <div class="authors-wrapper">
+        
+        <div class="author-container">
+          <div class="author-image">
+                        
+              <img src="./files/mark.jpeg" alt="Mark Spengler">
+            
+            
+          </div>
+          <p>
+                        
+              Mark Spengler
+            
+          </p>
+        </div>
+        
+        <div class="author-container">
+          <div class="author-image">
+            
+            <img src="./files/aaron.jpeg" alt="Aaron Castle">
+            
+          </div>
+          <p>
+            
+            Aaron Castle
+            
+          </p>
+        </div>
+        
+        <div class="author-container">
+          <div class="author-image">
+            
+              <img src="./files/sanketh.jpeg" alt="Sanketh Kodimala">            
+            
+          </div>
+          <p>
+              Sanketh Kodimala
+          </p>
+        </div>
+        
+        <div class="author-container">
+          <div class="author-image">
+                        
+              <img src="./files/gabe.png" alt="Gabriel Girmay Robison">
+            
+          </div>
+          <p>
+            Gabriel Girmay Robison
+          </p>
+        </div>
+        
+      </div>
+
+      <br/>
+
+      <div class="authors-wrapper">
+        <div class="publication-links">
+          <!-- Github link -->
+          <span class="link-block">
+            <a
+              href=""
+              target="_blank"
+              class="external-link button is-normal is-rounded is-dark is-outlined"
+            >
+            <span>Final Report</span>
+            </a>
+          </span>
+          <span class="link-block">
+            <a
+              href="https://colab.research.google.com/drive/1zFRwk3C9gXfkVzUlFovPSsA1Mhvc4_o0?usp=sharing"
+              target="_blank"
+              class="external-link button is-normal is-rounded is-dark is-outlined"
+            >
+            <span>Code</span>
+            </a>
+          </span>      
+          <span class="link-block">
+            <a
+              href=""
+              target="_blank"
+              class="external-link button is-normal is-rounded is-dark is-outlined"
+            >
+            <span>Model Weights</span>
+            </a>
+          </span>              
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+
+
+  
+  
+
+
+  <div class="wrapper">
+    <hr>
+    
+    <h2 id="abstract">Abstract</h2>
+
+<p>
+Online job scams pose significant risks to newgrad job seekers, making automated detection crucial for protecting 
+vulnerable users. We fine-tune LUKE, a language model with entity-aware self-attention, on the Real or Fake Job Posting 
+Prediction dataset to classify fraudulent job postings. Our approach combines job titles, company profiles, descriptions, 
+requirements, and benefits into a unified text representation. After two epochs of fine-tuning on 12,873 training examples, 
+our model achieves 98.3% accuracy and 0.89 macro F1-score on the validation set, and 98.7% accuracy with 0.92 macro 
+F1-score on the test set. We are currently developing span-level fraud detection capabilities to identify specific 
+fraudulent elements within postings and building a Chrome extension to provide real-time fraud detection for job seekers 
+browsing online job boards.
+</p>
+
+<hr>
+
+<h2 id="teaser">Teaser Figure</h2>
+
+<p>A figure that conveys the main idea behind the project or the main application being addressed. This figure is from <a href="https://arxiv.org/pdf/2210.07469">StyLEx</a>.</p>
+
+<p class="sys-img"><img src="./files/teaser.png" alt="imgname"></p>
+
+
+<h3 id="the-timeline-and-the-highlights">Any subsection</h3>
+
+<p>If you need to explain more about your figure</p>
+
+<hr>
+
+<h2 id="introduction">Introduction / Background / Motivation</h2>
+
+<p>
+<b>What did you try to do? What problem did you try to solve? Articulate your objectives using absolutely no jargon.</b>
+</p>
+<p>
+We aim to automatically detect fraudulent job postings to protect job seekers from online scams. Fake job postings can lead 
+to identity theft, financial loss, and wasted time for vulnerable individuals seeking employment. Our goal is to build a 
+classifier that can distinguish legitimate job postings from fraudulent ones based on textual content, and to make this 
+technology accessible through a practical browser extension that job seekers can use in real-time.
+</p>
+
+<p>
+<b>How is it done today, and what are the limits of current practice?</b>
+</p>
+<p>
+Current approaches typically rely on manual review or simple rule-based systems that check for specific keywords or 
+patterns. However, these methods are time-consuming, don't scale well, and can be easily circumvented by sophisticated 
+scammers. Recent deep learning approaches show promise but often treat job postings as simple text without considering 
+the structured nature of the information (title, company profile, requirements, etc.). Additionally, existing solutions 
+lack interpretability - they don't explain which specific parts of a posting are suspicious, making it difficult for users to 
+understand why a posting was flagged.
+</p>
+
+<p>
+<b>Who cares? If you are successful, what difference will it make?</b>
+</p>
+<p>
+Job seekers, particularly those in vulnerable populations, would benefit from automated fraud detection systems that can 
+flag suspicious postings in real-time. Job platforms and recruitment websites could integrate such systems to improve user 
+trust and safety. Successfully detecting fraudulent postings can prevent financial losses, protect personal information, 
+and save job seekers significant time and emotional distress. By providing both detection and explanation through 
+span-level analysis, users can make more informed decisions about which opportunities to pursue.
+</p>
+
+<hr>
+
+<h2 id="approach">Approach</h2>
+
+<p>
+<b>What did you do exactly? How did you solve the problem? Why did you think it would be successful? Is anything new in your approach?</b>
+</p>
+
+<p>
+We fine-tuned LUKE (Language Understanding with Knowledge-based Embeddings), a pre-trained transformer model with 
+entity-aware self-attention mechanisms. We combined five key textual fields from job postings (title, company profile, 
+description, requirements, and benefits) into a single text representation. We used the Real or Fake Job Posting Prediction 
+dataset from Kaggle, which contains 17,880 job postings with approximately 4.8% fraudulent examples. The dataset was split 
+80-10-10 into training, validation, and test sets with stratified sampling to maintain class balance.
+<br>
+We are currently researching and beginning to implement two key extensions to our base classifier:
+
+<ol>
+  <li>Span-level fraud detection: Rather than just classifying entire postings, we are developing methods to identify 
+    specific spans of text that contribute most to fraud predictions. This will provide interpretable explanations to users 
+    about which parts of a job posting are suspicious.</li>
+  <li>Chrome extension deployment: We are building a browser extension that will integrate our fraud detection model to 
+    provide real-time warnings as users browse job posting websites, making the technology directly accessible to job 
+    seekers.</li>
+</ol>
+</p>
+
+<p>
+<b>What problems did you anticipate? What problems did you encounter? Did the very first thing you tried work?</b>
+</p>
+
+<p>
+We anticipated class imbalance issues given that only 4.8% of postings are fraudulent. To address this, we used stratified 
+sampling and tracked both accuracy and macro F1-score to ensure the model doesn't simply predict all examples as 
+legitimate. We also set a maximum sequence length of 256 tokens to handle long job descriptions while maintaining 
+computational efficiency. The initial baseline model (before fine-tuning) showed only 4.8% accuracy, essentially 
+predicting the majority class, which confirmed the need for proper training.
+<br>
+For our ongoing work, we are exploring how to extract attention weights and gradient-based saliency maps from LUKE to 
+identify the most informative spans for fraud detection. For the Chrome extension, we are investigating efficient model 
+deployment strategies, including potential model distillation or API-based inference to balance accuracy with response time.
+</p>
+
+<hr>
+    
+<h2 id="results">Results</h2>
+<p>
+<b>How did you measure success? What experiments were used? What were the results, both quantitative and qualitative? Did you succeed? Did you fail? Why?</b>
+</p>
+<p>
+We evaluated our model using accuracy and macro F1-score on both validation and test sets. We established a baseline 
+using the pre-trained LUKE model without fine-tuning, which achieved only 4.8% accuracy (equivalent to always predicting 
+"not fraudulent"). After fine-tuning for 2 epochs with a learning rate of 2e-5 and batch size of 32, our model achieved:
+
+<ul>
+  <li>Validation Set: 98.3% accuracy, 0.894 macro F1-score</li>
+  <li>Test Set: 98.7% accuracy, 0.925 macro F1-score</li>
+</ul>
+
+The model showed consistent improvement during training, with validation loss decreasing from 0.165 to 0.071 over 800 
+steps. The significant improvement over the baseline and strong performance on both validation and test sets indicate 
+successful learning of patterns that distinguish fraudulent from legitimate job postings.
+
+</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Experiment</strong></th>
+      <th style="text-align: center">1</th>
+      <th style="text-align: center">2</th>
+      <th style="text-align: center">3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>Sentence</strong></td>
+      <td style="text-align: center">Example 1</td>
+      <td style="text-align: center">Example 2</td>
+      <td style="text-align: center">Example 3</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><strong>Errors</strong></td>
+      <td style="text-align: center">error A, error B, error C</td>
+      <td style="text-align: center">error C</td>
+      <td style="text-align: center">error B</td>
+    </tr>
+  </tbody>
+  <caption>Table 1. This is Table 1's caption</caption>
+</table>
+<br>
+<div style="text-align: center;">
+<img style="height: 300px;" alt="" src="./files/results.png">
+</div>
+<br><br>
+
+<hr>
+
+
+
+<h2 id="conclusion">Conclustion and Future Work</h2>
+<p>
+
+We are actively developing span-level fraud detection capabilities to provide interpretable explanations for our 
+predictions. Preliminary research indicates that attention mechanisms in LUKE can be leveraged to highlight suspicious 
+phrases, though we are still experimenting with the best approach for extracting and visualizing these insights.
+<br>
+Additionally, we are in the early stages of developing a Chrome extension that will integrate our trained model to 
+provide real-time fraud detection as users browse job posting sites. This will make our research directly applicable 
+to real-world job seekers who need immediate protection while searching for opportunities online.
+
+</p>
+
+
+<hr>
+
+
+  </div>
+  
+
+
+</body></html>
