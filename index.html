@@ -134,10 +134,11 @@ Online job scams pose significant risks to newgrad job seekers, making automated
 vulnerable users. We fine-tune LUKE, a language model with entity-aware self-attention, on the Real or Fake Job Posting 
 Prediction dataset to classify fraudulent job postings. Our approach combines job titles, company profiles, descriptions, 
 requirements, and benefits into a unified text representation. After two epochs of fine-tuning on 12,873 training examples, 
-our model achieves 98.3% accuracy and 0.89 macro F1-score on the validation set, and 98.7% accuracy with 0.92 macro 
+our model achieves 98.3% accuracy and 0.895 macro F1-score on the validation set, and 98.8% accuracy with 0.927 macro 
 F1-score on the test set. We are currently developing span-level fraud detection capabilities to identify specific 
-fraudulent elements within postings and building a Chrome extension to provide real-time fraud detection for job seekers 
-browsing online job boards.
+fraudulent elements within postings, implementing counterfactual token fairness analysis to ensure the model doesn't 
+discriminate based on sensitive attributes like location or visa requirements, and building a Chrome extension to provide 
+real-time fraud detection for job seekers browsing online job boards.
 </p>
 
 <hr>
@@ -205,12 +206,16 @@ description, requirements, and benefits) into a single text representation. We u
 dataset from Kaggle, which contains 17,880 job postings with approximately 4.8% fraudulent examples. The dataset was split 
 80-10-10 into training, validation, and test sets with stratified sampling to maintain class balance.
 <br>
-We are currently researching and beginning to implement two key extensions to our base classifier:
+We are currently researching and beginning to implement three key extensions to our base classifier:
 
 <ol>
   <li>Span-level fraud detection: Rather than just classifying entire postings, we are developing methods to identify 
     specific spans of text that contribute most to fraud predictions. This will provide interpretable explanations to users 
     about which parts of a job posting are suspicious.</li>
+  <li>Counterfactual fairness analysis: We are implementing counterfactual token fairness to ensure our model doesn't 
+    discriminate based on sensitive contextual attributes such as location, visa requirements, or remote work status. 
+    By creating counterfactual variants (e.g., changing location or visa terms) and analyzing how they affect predictions, 
+    we will measure fairness by comparing true and false positive rates across these attributes.</li>
   <li>Chrome extension deployment: We are building a browser extension that will integrate our fraud detection model to 
     provide real-time warnings as users browse job posting websites, making the technology directly accessible to job 
     seekers.</li>
@@ -243,45 +248,49 @@ deployment strategies, including potential model distillation or API-based infer
 We evaluated our model using accuracy and macro F1-score on both validation and test sets. We established a baseline 
 using the pre-trained LUKE model without fine-tuning, which achieved only 4.8% accuracy (equivalent to always predicting 
 "not fraudulent"). After fine-tuning for 2 epochs with a learning rate of 2e-5 and batch size of 32, our model achieved:
+</p>
 
 <ul>
-  <li>Validation Set: 98.3% accuracy, 0.894 macro F1-score</li>
-  <li>Test Set: 98.7% accuracy, 0.925 macro F1-score</li>
+  <li>Validation Set: 98.3% accuracy, 0.895 macro F1-score</li>
+  <li>Test Set: 98.8% accuracy, 0.927 macro F1-score</li>
 </ul>
 
-The model showed consistent improvement during training, with validation loss decreasing from 0.165 to 0.071 over 800 
-steps. The significant improvement over the baseline and strong performance on both validation and test sets indicate 
-successful learning of patterns that distinguish fraudulent from legitimate job postings.
-
+<p>
+The model showed consistent improvement during training, with validation loss decreasing from 0.086 to 0.070 and training 
+loss from 0.113 to 0.048 over 2 epochs. The significant improvement over the baseline and strong performance on both 
+validation and test sets indicate successful learning of patterns that distinguish fraudulent from legitimate job postings.
 </p>
 <table>
   <thead>
     <tr>
-      <th style="text-align: center"><strong>Experiment</strong></th>
-      <th style="text-align: center">1</th>
-      <th style="text-align: center">2</th>
-      <th style="text-align: center">3</th>
+      <th style="text-align: center"><strong>Epoch</strong></th>
+      <th style="text-align: center">Training Loss</th>
+      <th style="text-align: center">Validation Loss</th>
+      <th style="text-align: center">Accuracy</th>
+      <th style="text-align: center">F1 Macro</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: center"><strong>Sentence</strong></td>
-      <td style="text-align: center">Example 1</td>
-      <td style="text-align: center">Example 2</td>
-      <td style="text-align: center">Example 3</td>
+      <td style="text-align: center"><strong>1</strong></td>
+      <td style="text-align: center">0.112800</td>
+      <td style="text-align: center">0.085683</td>
+      <td style="text-align: center">0.978337</td>
+      <td style="text-align: center">0.859575</td>
     </tr>
     <tr>
-      <td style="text-align: center"><strong>Errors</strong></td>
-      <td style="text-align: center">error A, error B, error C</td>
-      <td style="text-align: center">error C</td>
-      <td style="text-align: center">error B</td>
+      <td style="text-align: center"><strong>2</strong></td>
+      <td style="text-align: center">0.048100</td>
+      <td style="text-align: center">0.070186</td>
+      <td style="text-align: center">0.982530</td>
+      <td style="text-align: center">0.895433</td>
     </tr>
   </tbody>
-  <caption>Table 1. This is Table 1's caption</caption>
+  <caption>Table 1. Training progress showing loss, accuracy, and F1 macro scores per epoch.</caption>
 </table>
 <br>
 <div style="text-align: center;">
-<img style="height: 300px;" alt="" src="./files/results.png">
+<img style="height: 300px;" alt="" src="./files/graphs.png">
 </div>
 <br><br>
 
@@ -289,19 +298,27 @@ successful learning of patterns that distinguish fraudulent from legitimate job 
 
 
 
-<h2 id="conclusion">Conclustion and Future Work</h2>
+<h2 id="conclusion">Conclusion and Future Work</h2>
 <p>
 
 We are actively developing span-level fraud detection capabilities to provide interpretable explanations for our 
 predictions. Preliminary research indicates that attention mechanisms in LUKE can be leveraged to highlight suspicious 
 phrases, though we are still experimenting with the best approach for extracting and visualizing these insights.
-<br>
+<br><br>
+A key focus of our ongoing work is ensuring fairness in fraud detection. We are implementing counterfactual fairness 
+analysis to identify whether sensitive attributes like location, visa requirements, or remote work status unfairly 
+influence our model's predictions. By generating counterfactual variants of job postings and measuring changes in 
+classification outcomes, we aim to detect and mitigate potential biases. This work will help ensure that legitimate 
+job postings aren't flagged as fraudulent simply due to attributes like requiring visa sponsorship or being in certain 
+geographic locations.
+<br><br>
 Additionally, we are in the early stages of developing a Chrome extension that will integrate our trained model to 
-provide real-time fraud detection as users browse job posting sites. This will make our research directly applicable 
-to real-world job seekers who need immediate protection while searching for opportunities online.
+provide real-time fraud detection as users browse job posting sites. This extension will display both the fraud 
+classification and the span-level explanations, allowing users to understand why a posting was flagged. This will make 
+our research directly applicable to real-world job seekers who need immediate protection while searching for 
+opportunities online.
 
 </p>
-
 
 <hr>
 
