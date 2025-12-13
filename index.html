@@ -70,7 +70,7 @@
             <!-- Github link -->
             <span class="link-block">
               <a
-                href="final_report.html"
+                href="CSCI_5541_Final_Project-3.pdf"
                 target="_blank"
                 class="external-link button is-normal is-rounded is-dark is-outlined"
               >
@@ -79,7 +79,7 @@
             </span>
             <span class="link-block">
               <a
-                href="https://colab.research.google.com/drive/1zFRwk3C9gXfkVzUlFovPSsA1Mhvc4_o0?usp=sharing"
+                href="code.html"
                 target="_blank"
                 class="external-link button is-normal is-rounded is-dark is-outlined"
               >
@@ -88,7 +88,7 @@
             </span>
             <span class="link-block">
               <a
-                href=""
+                href="models.html"
                 target="_blank"
                 class="external-link button is-normal is-rounded is-dark is-outlined"
               >
@@ -108,27 +108,28 @@
       <p>
         Online job scams pose a growing threat to new-graduate job seekers,
         motivating the need for automated tools that can identify fraudulent
-        postings in real time. We fine-tune LUKE, an entity-aware language
-        model, on a combined corpus derived from the Real-or-Fake Job Posting
-        dataset and the Employment Scam Aegean Dataset, using unified
-        representations of job titles, company profiles, descriptions,
-        requirements, and benefits. Our model achieves ~99% accuracy with low
-        evaluation loss, and we extend it with gradient-based evidence span
-        extraction that surfaces 2-5 concise phrases most responsible for each
-        prediction. Counterfactual fairness tests - modifying remote status,
-        salary terms, visa language, and similar attributes - show minimal
-        output shifts and near-zero flip rates, indicating that the classifier
-        is stable and not driven by sensitive or superficial wording.
+        postings in real time. We fine-tune an ensemble of three transformer
+        models - LUKE, RoBERTa, and DistilBERT - on a combined corpus derived
+        from the Real-or-Fake Job Posting dataset and the Employment Scam Aegean
+        Dataset, using unified representations of job titles, company profiles,
+        descriptions, requirements, and benefits. Our ensemble achieves ~99%
+        accuracy with low evaluation loss, and we extend it with gradient-based
+        evidence span extraction that surfaces 2-5 concise phrases most
+        responsible for each prediction. Counterfactual fairness tests -
+        modifying remote status, salary terms, visa language, and similar
+        attributes - show minimal output shifts and near-zero flip rates,
+        indicating that the classifier is stable and not driven by sensitive or
+        superficial wording.
         <br /><br />
         To deliver these capabilities to end users, we built a Chrome extension
-        and FastAPI backend that integrate our model into any job platform. The
-        extension automatically scrapes each posting, uses an LLM to parse it
-        into structured fields, classifies fraud risk, and, using the evidence
-        span mechanism, highlights the specific terms that contributed most to a
-        fraudulent prediction. It then displays risk levels, confidence,
-        fairness metadata, and a concise explanation directly in the browser.
-        This system provides job seekers with a practical, transparent, and
-        equitable tool for detecting online job scams.
+        and FastAPI backend that integrate our ensemble into any job platform.
+        The extension automatically scrapes each posting, uses an LLM to parse
+        it into structured fields, runs all three models and combines their
+        predictions via weighted voting, highlights suspicious phrases using
+        evidence spans, and displays risk levels, confidence, and a concise
+        explanation directly in the browser. This system provides job seekers
+        with a practical, transparent, and equitable tool for detecting online
+        job scams.
       </p>
 
       <!-- <hr>
@@ -137,9 +138,33 @@
 
 <p>A figure that conveys the main idea behind the project or the main application being addressed. This figure is from <a href="https://arxiv.org/pdf/2210.07469">StyLEx</a>.</p>
 -->
-      <p class="sys-img">
-        <img src="./files/chromeExtension.png" alt="imgname" />
-      </p>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 1.5rem;
+          flex-wrap: wrap;
+        "
+      >
+        <img
+          src="./files/extensionFake.png"
+          alt="Chrome extension showing fake job detection"
+          style="
+            max-height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          "
+        />
+        <img
+          src="./files/extensionReal.png"
+          alt="Chrome extension showing real job detection"
+          style="
+            max-height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          "
+        />
+      </div>
       <!--
 
 <h3 id="the-timeline-and-the-highlights">Any subsection</h3>
@@ -212,17 +237,17 @@
       </p>
 
       <p>
-        We fine-tuned LUKE (Language Understanding with Knowledge-based
-        Embeddings), a pre-trained transformer model with entity-aware
-        self-attention mechanisms. We combined five key textual fields from each
-        job posting (title, company profile, description, requirements, and
-        benefits) into a unified text representation and trained on a merged
-        dataset created from the Real-or-Fake Job Posting Prediction dataset and
-        the Employment Scam Aegean Dataset. Using an 80-10-10 stratified split,
-        our fine-tuned model achieved ~99% accuracy with very low evaluation
-        loss. Our approach expands beyond standard classification by
-        incorporating span-level interpretability, fairness analysis, and direct
-        real-world deployment.
+        We fine-tuned an ensemble of three transformer models: LUKE (Language
+        Understanding with Knowledge-based Embeddings), RoBERTa, and DistilBERT.
+        We combined five key textual fields from each job posting (title,
+        company profile, description, requirements, and benefits) into a unified
+        text representation and trained on a merged dataset created from the
+        Real-or-Fake Job Posting Prediction dataset and the Employment Scam
+        Aegean Dataset. Using an 80-10-10 stratified split, our ensemble
+        achieved ~99% accuracy with very low evaluation loss. Our approach
+        expands beyond standard classification by incorporating ensemble voting
+        for improved robustness, span-level interpretability, fairness analysis,
+        and direct real-world deployment.
       </p>
       <ol>
         <li>
@@ -244,9 +269,11 @@
         <li>
           <strong>Chrome extension deployment:</strong> We built a Chrome
           extension integrated with a FastAPI backend that automatically scrapes
-          job postings on any website, parses the raw text using an LLM, runs
-          our LUKE classifier, and displays fraud risk levels, evidence spans,
-          fairness metadata, and an explanation directly in the user's browser.
+          job postings on any website, parses the raw text using an LLM, and
+          runs our three-model ensemble (LUKE, RoBERTa, DistilBERT). Predictions
+          are combined via weighted voting to improve robustness, and the
+          extension displays fraud risk levels, evidence spans, and an
+          explanation directly in the user's browser.
         </li>
       </ol>
 
@@ -261,7 +288,7 @@
         We anticipated class imbalance issues given that fraudulent postings are
         a small minority. To address this, we used stratified sampling and
         tracked both accuracy and macro F1-score to avoid majority-class
-        dominance. Our initial baseline model (before fine-tuning) achieved ~5%
+        dominance. Our initial baseline model (before fine-tuning) achieved ~39%
         accuracy, confirming the need for training. We also set a maximum
         sequence length of 256 tokens to handle long descriptions efficiently.
         For interpretability, we experimented with attention weights but
@@ -283,12 +310,14 @@
         >
       </p>
       <p>
-        We evaluated our model using accuracy, macro F1-score, and validation
+        We evaluated our models using accuracy, macro F1-score, and validation
         loss on the combined dataset (Real-or-Fake Job Posting + Employment Scam
         Aegean). As a baseline, the pre-trained, unfine-tuned LUKE model
-        achieved roughly 4-5% accuracy, equivalent to predicting all postings as
+        achieved roughly 39% accuracy, equivalent to predicting all postings as
         legitimate. After fine-tuning for 3 epochs with a learning rate of 2e-5,
-        batch size of 32, and weight decay of 0.01, our final model reached:
+        batch size of 32, and weight decay of 0.01, our LUKE model reached ~99%
+        accuracy and F1. We then trained RoBERTa and DistilBERT using the same
+        dataset and procedure to form our three-model ensemble. Final metrics:
       </p>
 
       <ul>
@@ -344,14 +373,28 @@
           </tr>
         </tbody>
         <caption>
-          Table 1. Training progress showing loss, accuracy, and F1 macro scores
-          per epoch.
+          Table 1. LUKE training progress showing loss, accuracy, and F1 macro
+          scores per epoch. RoBERTa and DistilBERT were trained with the same
+          procedure to complete the ensemble.
         </caption>
       </table>
 
       <br />
       <div style="text-align: center">
-        <img style="height: 300px" alt="" src="./files/graph.png" />
+        <img
+          style="height: 300px"
+          alt="LUKE validation accuracy and loss over epochs"
+          src="./files/graph.png"
+        />
+      </div>
+
+      <br />
+      <div style="text-align: center">
+        <img
+          style="height: 300px"
+          alt="Counterfactual fairness metrics across text attributes (flip rate, average and max probability shift)"
+          src="./files/counterfactual.png"
+        />
       </div>
       <br /><br />
 
@@ -371,11 +414,10 @@
         <br /><br />
         To make our work directly accessible to job seekers, we developed a
         Chrome extension integrated with a FastAPI backend that parses job
-        postings from any website, runs our LUKE-based classifier, and displays
-        a clear risk level, top suspicious spans, and a user-friendly
-        explanation. This deployment shows that our approach is not only
-        accurate in offline evaluation but also effective and responsive in
-        real-time usage.
+        postings from any website, runs our three-model ensemble, and displays a
+        clear risk level, top suspicious spans, and a user-friendly explanation.
+        This deployment shows that our approach is not only accurate in offline
+        evaluation but also effective and responsive in real-time usage.
         <br /><br />
         Future work includes expanding the span attribution methodology to
         reduce tokenizer artifacts, improving calibration of confidence scores,

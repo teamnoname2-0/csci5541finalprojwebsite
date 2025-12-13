@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Model Weights | Fake Job Detection Ensemble</title>
+
+    <link rel="stylesheet" href="./files/bulma.min.css" />
+    <link rel="stylesheet" href="./files/styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" />
+    <link href="./files/css2.css" rel="stylesheet" />
+    <link href="./files/css.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <a href="index.html" class="back-link">&larr; Back to Project</a>
+
+      <h1 style="font-family: 'Lato', sans-serif">Ensemble Model Weights</h1>
+      <p>
+        Our fraud detection system uses an ensemble of three fine-tuned
+        transformer models. Each model was trained on the same merged dataset
+        (~28,000 job postings) and their predictions are combined via weighted
+        voting for improved robustness.
+      </p>
+
+      <hr />
+
+      <div class="model-card">
+        <h3>LUKE (Primary Model)</h3>
+        <p>
+          Language Understanding with Knowledge-based Embeddings. Entity-aware
+          transformer with specialized architecture for span-level
+          representations. Used for evidence span extraction.
+        </p>
+        <a
+          href="https://huggingface.co/gaberobison7/luke-job-fraud-detector"
+          target="_blank"
+          class="external-link button is-normal is-rounded is-dark is-outlined"
+        >
+          <span>View on Hugging Face</span>
+        </a>
+      </div>
+
+      <div class="model-card">
+        <h3>RoBERTa</h3>
+        <p>
+          Robustly Optimized BERT Pretraining Approach. A robust variant of BERT
+          with improved training methodology.
+        </p>
+        <a
+          href="https://huggingface.co/tmarkspengler/output-roberta"
+          target="_blank"
+          class="external-link button is-normal is-rounded is-dark is-outlined"
+        >
+          <span>View on Hugging Face</span>
+        </a>
+      </div>
+
+      <div class="model-card">
+        <h3>DistilBERT</h3>
+        <p>
+          A distilled version of BERT that is smaller and faster while retaining
+          most of BERT's performance.
+        </p>
+        <a
+          href="https://huggingface.co/tmarkspengler/output-distilbert"
+          target="_blank"
+          class="external-link button is-normal is-rounded is-dark is-outlined"
+        >
+          <span>View on Hugging Face</span>
+        </a>
+      </div>
+
+      <hr />
+
+      <p style="font-size: 0.9rem; color: #666">
+        All models are hosted on Hugging Face Hub and can be loaded using the
+        <code>transformers</code> library.
+      </p>
+    </div>
+  </body>
+</html>
